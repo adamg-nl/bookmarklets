@@ -35,3 +35,35 @@ javascript:(function(){
   observer.observe(document.body, { childList: true, subtree: true });
 })();
 ```
+
+## Copy playlist URLs
+
+Use on a playlist view page to get newline-separated URL in clipboard. 
+
+```
+javascript:(function(){
+  /* Target video link elements within playlist items */
+  const nodes = document.querySelectorAll('ytd-playlist-video-renderer a#video-title');
+  
+  if (!nodes.length) {
+    return alert('No playlist videos found. Make sure you are on a YouTube playlist page.');
+  }
+
+  /* Extract hrefs, convert to clean URLs, and deduplicate */
+  const urls = Array.from(nodes)
+    .map(a => {
+      const href = a.getAttribute('href');
+      if (!href) return null;
+      const url = new URL(href, window.location.origin);
+      const v = url.searchParams.get('v');
+      return v ? `https://www.youtube.com/watch?v=${v}` : null;
+    })
+    .filter(Boolean);
+
+  const uniqueUrls = Array.from(new Set(urls));
+
+  /* Copy newline-separated URLs to clipboard */
+  navigator.clipboard.writeText(uniqueUrls.join('\n'));
+  alert(`Copied ${uniqueUrls.length} video URL(s) to clipboard!`);
+})();
+```
