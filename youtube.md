@@ -19,8 +19,8 @@ javascript:(function(){
     if (!nodes.length) return false;
 
     const transcriptText = Array.from(nodes).map(n => n.innerText.trim()).filter(Boolean).join(' ');
-    const url = `${window.location.origin}/watch?v=${new URL(window.location.href).searchParams.get('v')}`;
-    navigator.clipboard.writeText(`# ${videoTitle}\n\n${url}\n\n${transcriptText}`);
+    const url = window.location.origin + "/watch?v=" + new URL(window.location.href).searchParams.get('v')};
+    navigator.clipboard.writeText("# " + videoTitle" + "\n\n" + url + "\n\n" + transcriptText);
     return true;
   }
 
