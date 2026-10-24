@@ -9,18 +9,17 @@ javascript:(d=>{var s = d.createElement("style"); d.head.appendChild(s); s.inner
 
 ```
 javascript:(function(){
-  const selector = "transcript-segment-view-model .ytAttributedStringHost";
+  const selector = "ytd-transcript-segment-renderer:not([hidden]) .segment-text, transcript-segment-view-model .ytAttributedStringHost";
   
   function copyData() {
-    const titleEl = document.querySelector('ytd-watch-metadata #title h1 yt-formatted-string, h1.ytd-watch-metadata');
-    const videoTitle = titleEl ? titleEl.innerText.trim() : 'Video Transcript';
     const nodes = document.querySelectorAll(selector);
-    
     if (!nodes.length) return false;
 
+    const videoTitle = document.querySelector("#title").textContent.trim();
     const transcriptText = Array.from(nodes).map(n => n.textContent.trim()).filter(Boolean).join(' ');
     const url = window.location.origin + "/watch?v=" + new URL(window.location.href).searchParams.get('v');
-    navigator.clipboard.writeText("# " + videoTitle + "\n\n" + url + "\n\n" + transcriptText + "\n");
+    const fileContent = "# " + videoTitle + "\n\n" + url + "\n\n" + transcriptText + "\n";
+    navigator.clipboard.writeText(fileContent);
     return true;
   }
 
