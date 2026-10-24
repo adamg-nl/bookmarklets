@@ -19,7 +19,8 @@ javascript:(function(){
     if (!nodes.length) return false;
 
     const transcriptText = Array.from(nodes).map(n => n.innerText.trim()).filter(Boolean).join(' ');
-    navigator.clipboard.writeText(`# ${videoTitle}\n\n\n${transcriptText}`);
+    const url = `${window.location.origin}/watch?v=${new URL(window.location.href).searchParams.get('v')}`;
+    navigator.clipboard.writeText(`# ${videoTitle}\n\n${url}\n\n${transcriptText}`);
     return true;
   }
 
@@ -54,9 +55,9 @@ javascript:(function(){
     .map(a => {
       const href = a.getAttribute('href');
       if (!href) return null;
-      const url = new URL(href, window.location.origin);
+      const url = new URL(href);
       const v = url.searchParams.get('v');
-      return v ? `https://www.youtube.com/watch?v=${v}` : null;
+      return v ? `${window.location.origin}/watch?v=${v}` : null;
     })
     .filter(Boolean);
 
