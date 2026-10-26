@@ -15,7 +15,7 @@ javascript:(function(){
     const nodes = document.querySelectorAll(selector);
     if (!nodes.length) return false;
 
-    const videoTitle = document.querySelector("#title").textContent.trim();
+    const videoTitle = document.querySelector("#title h1").textContent.trim();
     const transcriptText = Array.from(nodes).map(n => n.textContent.trim()).filter(Boolean).join(' ');
     const url = window.location.origin + "/watch?v=" + new URL(window.location.href).searchParams.get('v');
     const fileContent = "# " + videoTitle + "\n\n" + url + "\n\n" + transcriptText + "\n";
